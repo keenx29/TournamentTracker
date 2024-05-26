@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Prizes View Page";
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Prize List</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Prize" asp-action="Create" class="btn btn-outline-success">
+                <i class="bi bi-plus-circle-dotted"></i> &nbsp
+                Create new prize</a>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped" style="width:100%">
+      <thead>
+          <tr>
+              <th>Place Name</th>
+              <th>Prize Amount</th>
+              <th>Prize Percentage</th>
+          </tr>
+      </thead>
+  </table>
+</div>

@@ -1,0 +1,32 @@
+﻿@using TournamentTracker.Entities
+@model Prize
+@{
+	Layout = "/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Prizes Create Page";
+}
+<div class="container p-3 text-center border">
+	<fieldset>
+		<legend>ADD PRIZE</legend>
+		<form action="/Prize/Create" method="post">
+			<div class="row text-center m-1">
+				<label asp-for="PlaceName"></label>
+			</div>
+			<input asp-for="PlaceName" type="text"/>
+			<div class="row text-center m-1">
+				<label asp-for="PlaceNumber"></label>
+			</div>
+			<input asp-for="PlaceNumber" type="text"/>
+			<div class="row text-center m-1">
+				<label asp-for="PrizeAmount"></label>
+			</div>
+			<input asp-for="PrizeAmount" type="text"/>
+			<div class="row text-center m-1">
+				<label asp-for="PrizePercentage"></label>
+			</div>
+			<input asp-for="PrizePercentage" type="text"/>
+			<div class="m-1">
+				<input class="btn btn-outline-success" type="submit" value="Add prize"/>
+			</div>
+		</form>
+	</fieldset>
+	</div>
