@@ -19,7 +19,13 @@ namespace TournamentTracker.Controllers
 		[HttpPost]
 		public IActionResult Create(Prize model)
 		{
-			return View();
+            if (ModelState.IsValid)
+            {
+                _db.Add(model);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+			return Create(model);
 		}
 	}
 }
