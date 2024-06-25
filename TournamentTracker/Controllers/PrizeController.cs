@@ -1,15 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TournamentTracker.Data;
 using TournamentTracker.Entities;
+using TournamentTracker.ViewModels.Prize;
 
 namespace TournamentTracker.Controllers
 {
     public class PrizeController : Controller
     {
-        private readonly TournamentTrackerDbContext _db;
+        TournamentTrackerDbContext db = new TournamentTrackerDbContext();
+
         public IActionResult Index()
         {
-            return View();
+            PrizeVM viewModel = new PrizeVM();
+            viewModel.Prizes = db.Prizes.ToList();
+            return View(viewModel);
         }
         [HttpGet]
         public IActionResult Create()
@@ -21,11 +25,11 @@ namespace TournamentTracker.Controllers
 		{
             if (ModelState.IsValid)
             {
-                _db.Add(model);
-                _db.SaveChanges();
+                db.Add(model);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-			return Create(model);
+			return RedirectToAction("Create", model);
 		}
 	}
 }

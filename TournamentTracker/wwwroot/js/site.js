@@ -1,4 +1,11 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿const showPopup = document.querySelector('.show-popup');
+const popupContainer = document.querySelector('.popup-container');
+const closeBtn = document.querySelector('.close-btn');
 
-// Write your JavaScript code.
+showPopup.onclick = () => {
+    popupContainer.classList.add('active');
+}
+
+closeBtn.onclick = () => {
+    popupContainer.classList.remove('active');
+}

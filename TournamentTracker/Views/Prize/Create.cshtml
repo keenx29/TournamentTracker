@@ -6,7 +6,7 @@
 }
 <div class="container p-3 text-center border">
 	<fieldset>
-		<legend>ADD PRIZE</legend>
+		<legend>CREATE PRIZE</legend>
 		<form action="/Prize/Create" method="post">
 
 			<div class="row text-center m-1">
@@ -28,21 +28,25 @@
 			<div class="row text-center m-1">
 				<label asp-for="PrizeAmount"></label>
 			</div>
-			<input asp-for="PrizeAmount" type="text"/>
+			<input asp-for="PrizeAmount" type="text" placeholder="0"/>
 			<div class="row text-center m-1">
 				<span asp-validation-for="PrizeAmount" class="text-danger"></span>
+			</div>
+
+			<div class="row text-center">
+				<h4 class="m-0">- OR -</h4>
 			</div>
 
 			<div class="row text-center m-1">
 				<label asp-for="PrizePercentage"></label>
 			</div>
-			<input asp-for="PrizePercentage" type="text"/>
+			<input asp-for="PrizePercentage" type="text" placeholder="0"/>
 			<div class="row text-center m-1">
 				<span asp-validation-for="PrizePercentage" class="text-danger"></span>
 			</div>
 
 			<div class="m-1">
-				<input class="btn btn-outline-success" type="submit" value="Add prize"/>
+				<input class="btn btn-outline-success" type="submit" value="Save prize"/>
 			</div>
 		</form>
 	</fieldset>

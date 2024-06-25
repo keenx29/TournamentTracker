@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TournamentTracker.Data;
 
@@ -10,9 +11,11 @@ using TournamentTracker.Data;
 namespace TournamentTracker.Migrations
 {
     [DbContext(typeof(TournamentTrackerDbContext))]
-    partial class TournamentTrackerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240529154512_AddPerson")]
+    partial class AddPerson
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

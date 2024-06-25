@@ -1,0 +1,106 @@
+﻿@using TournamentTracker.Entities
+@using TournamentTracker.ViewModels.Team
+@model TeamVM
+@{
+    ViewData["Title"] = "Team View Page";
+}
+ <div class="popup-container text-light text-center">
+      <div class="popup-box">
+		  <fieldset>
+		<legend>ADD PERSON</legend>
+		<form action="/Team/CreatePerson" method="post">
+            
+			<div class="row text-center m-1">
+				<label asp-for="@Model.NewMember.FirstName"></label>
+			</div>
+                <input asp-for="@Model.NewMember.FirstName" type="text"/>
+			<div class="row text-center m-1">
+                <span asp-validation-for="@Model.NewMember.FirstName" class="text-danger"></span>
+			</div>
+
+			<div class="row text-center m-1">
+                <label asp-for="@Model.NewMember.LastName"></label>
+			</div>
+            <input asp-for="@Model.NewMember.LastName" type="text"/>
+			<div class="row text-center m-1">
+                <span asp-validation-for="@Model.NewMember.LastName" class="text-danger"></span>
+			</div>
+
+			<div class="row text-center m-1">
+                <label asp-for="@Model.NewMember.EmailAddress"></label>
+			</div>
+            <input asp-for="@Model.NewMember.EmailAddress" type="text" />
+			<div class="row text-center m-1">
+                <span asp-validation-for="@Model.NewMember.EmailAddress" class="text-danger"></span>
+			</div>
+
+			<div class="m-1 text-center">
+                <button class="close-btn btn btn-success" type="submit">Save person</button>
+			</div>
+		</form>
+	</fieldset>
+	</div>
+	@section Scripts {
+		@{
+					<partial name="_ValidationScriptsPartial"/>
+		}
+	}
+  </div>
+
+
+
+
+<div class="container p-3">
+    <div class="row pt-4 text-center">
+            <h2 class="text-info">Create a team</h2>
+    </div>
+    <div class="row p-1">
+        <div class="col-6">
+            <div class="row">
+                <label class="text-light fs-5" asp-for="TeamName"></label>
+            </div>
+            
+        <input class="fs-5" type="text" asp-for="TeamName" />
+        </div>
+        <div class="col-6 text-end">
+            <form action="/Team/Index" method="post">
+                
+            <div class="row">
+                <label asp-for="NewTeamMemberId" class="text-light fs-5">Select Team Member:</label>
+            </div>
+        @Html.DropDownList("NewTeamMemberId", new SelectList(Model.AllTeamMembers, "Id", "FirstName"), "New Member");
+        @* <select id="NewTeamMemberId" class="fs-5">
+                    @foreach (Person item in Model.AllTeamMembers)
+                    {
+                            <option value="@item.Id">@(item.FirstName + " " + item.LastName)</option>
+                    }
+        </select> *@
+        <button class="btn btn-success rounded-5" type="submit"><i class="bi bi-plus-circle-dotted"></i> Add to team</button>
+            </form>
+        </div>
+        
+    </div>
+    <table class="table table-bordered table-striped" style="width:100%">
+      <thead>
+          <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th class="d-flex justify-content-between align-items-end">Email Address 
+                  <button class="show-popup btn btn-success rounded-5"><i class="bi bi-plus-circle-dotted"></i> Add new person</button>
+              </th>
+          </tr>
+      </thead>
+      <tbody>
+            @foreach (Person teamMember in Model.NewTeamMembers)
+            {
+                <tr>
+                    <td>@teamMember.FirstName</td>
+                    <td>@teamMember.LastName</td>
+                    <td>@teamMember.EmailAddress</td>
+                </tr>
+                
+            }
+        </tbody>
+  </table>
+ 
+</div>
