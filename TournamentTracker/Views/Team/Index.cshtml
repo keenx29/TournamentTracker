@@ -2,53 +2,8 @@
 @using TournamentTracker.ViewModels.Team
 @model TeamVM
 @{
-    ViewData["Title"] = "Team View Page";
+    ViewData["Title"] = "Teams";
 }
- <div class="popup-container text-light text-center">
-      <div class="popup-box">
-		  <fieldset>
-		<legend>ADD PERSON</legend>
-		<form action="/Team/CreatePerson" method="post">
-            
-			<div class="row text-center m-1">
-				<label asp-for="@Model.NewMember.FirstName"></label>
-			</div>
-                <input asp-for="@Model.NewMember.FirstName" type="text"/>
-			<div class="row text-center m-1">
-                <span asp-validation-for="@Model.NewMember.FirstName" class="text-danger"></span>
-			</div>
-
-			<div class="row text-center m-1">
-                <label asp-for="@Model.NewMember.LastName"></label>
-			</div>
-            <input asp-for="@Model.NewMember.LastName" type="text"/>
-			<div class="row text-center m-1">
-                <span asp-validation-for="@Model.NewMember.LastName" class="text-danger"></span>
-			</div>
-
-			<div class="row text-center m-1">
-                <label asp-for="@Model.NewMember.EmailAddress"></label>
-			</div>
-            <input asp-for="@Model.NewMember.EmailAddress" type="text" />
-			<div class="row text-center m-1">
-                <span asp-validation-for="@Model.NewMember.EmailAddress" class="text-danger"></span>
-			</div>
-
-			<div class="m-1 text-center">
-                <button class="close-btn btn btn-success" type="submit">Save person</button>
-			</div>
-		</form>
-	</fieldset>
-	</div>
-	@section Scripts {
-		@{
-					<partial name="_ValidationScriptsPartial"/>
-		}
-	}
-  </div>
-
-
-
 
 <div class="container p-3">
     <div class="row pt-4 text-center">
@@ -68,7 +23,7 @@
             <div class="row">
                 <label asp-for="NewTeamMemberId" class="text-light fs-5">Select Team Member:</label>
             </div>
-        @Html.DropDownList("NewTeamMemberId", new SelectList(Model.AllTeamMembers, "Id", "FirstName"), "New Member");
+        @Html.DropDownList("NewTeamMemberId", new SelectList(Model.AllPeople, "Id", "FirstName"), "New Member");
         @* <select id="NewTeamMemberId" class="fs-5">
                     @foreach (Person item in Model.AllTeamMembers)
                     {
@@ -91,12 +46,12 @@
           </tr>
       </thead>
       <tbody>
-            @foreach (Person teamMember in Model.NewTeamMembers)
+            @foreach (Person teamMember in Model.TeamMembers)
             {
                 <tr>
-                    <td>@teamMember.FirstName</td>
-                    <td>@teamMember.LastName</td>
-                    <td>@teamMember.EmailAddress</td>
+                    <th>@teamMember.FirstName</th>
+                    <th>@teamMember.LastName</th>
+                    <th>@teamMember.EmailAddress</th>
                 </tr>
                 
             }
@@ -104,3 +59,4 @@
   </table>
  
 </div>
+

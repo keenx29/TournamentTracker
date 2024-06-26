@@ -1,0 +1,47 @@
+﻿@using TournamentTracker.Entities;
+@using TournamentTracker.ViewModels.People
+@model PersonVM
+@{
+	Layout = "/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Add Person";
+}
+<div class="p-2 border text-center justify-content-center align-items-center d-flex" style="max-height: 100vh; min-height: 50vh">
+	<fieldset>
+		<legend>Add Person</legend>
+		<form action="/Person/Create" method="post">
+
+			<div class="row text-center m-1">
+				<label asp-for="FirstName"></label>
+			</div>
+			<input asp-for="FirstName" type="text"/>
+			<div class="row text-center m-1">
+				<span asp-validation-for="FirstName" class="text-danger"></span>
+			</div>
+			
+			<div class="row text-center m-1">
+				<label asp-for="LastName"></label>
+			</div>
+			<input asp-for="LastName" type="text"/>
+			<div class="row text-center m-1">
+				<span asp-validation-for="LastName" class="text-danger"></span>
+			</div>
+			
+			<div class="row text-center m-1">
+				<label asp-for="EmailAddress"></label>
+			</div>
+			<input asp-for="EmailAddress" type="text" placeholder="first.last@mail.com"/>
+			<div class="row text-center m-1">
+				<span asp-validation-for="EmailAddress" class="text-danger"></span>
+			</div>
+			<div class="m-1">
+				<input class="btn btn-outline-success" type="submit" value="Save person"/>
+			</div>
+		</form>
+	</fieldset>
+	</div>
+
+	@section Scripts{
+		@{
+			<partial name="_ValidationScriptsPartial"/>
+		}
+	}

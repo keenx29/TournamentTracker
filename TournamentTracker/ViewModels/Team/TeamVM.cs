@@ -4,11 +4,8 @@
     public class TeamVM
     {
         public string TeamName { get; set; }
-        public List<Person> AllTeamMembers { get; set; } = new List<Person>();
-        public List<Person> NewTeamMembers { get; set; } = new List<Person>();
-        public int Id { get; set; }
-        public int NewTeamMemberId { get; set; }
-        public Person NewMember { get; set; }
-        public Team selectedTeam { get; set; }
+        public List<Person> AllPeople { get; set; } = new List<Person>(); //Stores all people except the members of the team
+        public List<Person> TeamMembers { get; set; } = new List<Person>(); //Stores all members of the team
+        public int NewTeamMemberId { get; set; } //For adding a person to the team
     }
 }
