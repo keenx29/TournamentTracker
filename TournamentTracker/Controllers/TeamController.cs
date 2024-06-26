@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel;
 using TournamentTracker.Data;
 using TournamentTracker.Entities;
 using TournamentTracker.ViewModels.Team;
@@ -8,8 +7,18 @@ namespace TournamentTracker.Controllers
 {
     public class TeamController : Controller
     {
-        TournamentTrackerDbContext db = new TournamentTrackerDbContext();
+        readonly TournamentTrackerDbContext db;
         static List<Person> selectedTeamMembers = new List<Person>();
+        public TeamController(TournamentTrackerDbContext context)
+        {
+            db = context;
+        }
+        //private List<Person> GetSelectedTeamMembers()
+        //{
+        //    var selectedTeamMembersJson = HttpContext.Session.GetString("SelectedTeamMembers");
+        //    return selectedTeamMembersJson == null ? new List<Person>() : JsonConvert.DeserializeObject<List<Person>>(selectedTeamMembersJson);
+        //}
+        //static List<Person> selectedTeamMembers = new List<Person>();
         [HttpGet]
         public IActionResult Index()
         {
