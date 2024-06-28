@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 using TournamentTracker.Data;
 using TournamentTracker.Entities;
 using TournamentTracker.ViewModels.Team;
@@ -8,7 +9,8 @@ namespace TournamentTracker.Controllers
     public class TeamController : Controller
     {
         readonly TournamentTrackerDbContext db;
-        static List<Person> selectedTeamMembers = new List<Person>();
+       
+
         public TeamController(TournamentTrackerDbContext context)
         {
             db = context;
@@ -20,10 +22,13 @@ namespace TournamentTracker.Controllers
         //}
         //static List<Person> selectedTeamMembers = new List<Person>();
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(TeamVM model)
         {
-            TeamVM model = new TeamVM();
-            model.TeamMembers = selectedTeamMembers;
+            //TeamVM model = new TeamVM();
+            //model.TeamMembers = selectedTeamMembers;
+            if (TempData.Peek("TeamMembers") != null) {
+                model.TeamMembers = JsonSerializer.Deserialize<List<Person>>(TempData["TeamMembers"].ToString());
+            }
             var availablePlayers = db.People.ToList();
             model.AvailablePlayers = availablePlayers.Except(model.TeamMembers).ToList();
             return View(model);
@@ -32,10 +37,17 @@ namespace TournamentTracker.Controllers
         [ActionName("Index")]
         public IActionResult IndexPost(TeamVM model)
         {
+            //if (TempData.Peek("selectedTeamMembers") != null)
+            //{
+            //    model.TeamMembers = TempData.Peek("selectedTeamMembers").ToList();
+            //}
+            
             Person newTeamMember = db.People.FirstOrDefault(x => x.Id == model.NewTeamMemberId);
             if (newTeamMember != null) 
             {
-				selectedTeamMembers.Add(newTeamMember);
+                //selectedTeamMembers.Add(newTeamMember);
+                model.TeamMembers.Add(newTeamMember);
+                TempData["TeamMembers"] = JsonSerializer.Serialize(model.TeamMembers);
             }
             return RedirectToAction("Index");
         }
@@ -49,6 +61,8 @@ namespace TournamentTracker.Controllers
             {
                 db.Add(person);
                 db.SaveChanges();
+                model.TeamMembers.Add(person);
+                TempData["TeamMembers"] = JsonSerializer.Serialize(model.TeamMembers);
             }
             return RedirectToAction("Index");
         }
