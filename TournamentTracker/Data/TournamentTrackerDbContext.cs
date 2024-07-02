@@ -7,6 +7,7 @@ namespace TournamentTracker.Data
     {
         public DbSet<Prize> Prizes { get; set; }
         public DbSet<Person> People { get; set; }
+        public DbSet<Team> Teams { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

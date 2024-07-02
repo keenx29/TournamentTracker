@@ -5,20 +5,27 @@
     ViewData["Title"] = "Teams";
 }
 
-<div class="container p-3">
-    <div class="row pt-4 text-center">
-            <h2 class="text-info">Create a team</h2>
+<div class="container p-3 text-center">
+    <form action="/Team/Index" method="post">
+    <form action="/Team/Create" method="post">
+    <div class="pt-4 text-center d-flex justify-content-center" style="height: 10vh;">
+        
+        <button style="height: 100%; padding: auto;" class="btn btn-outline-info fs-2 d-flex align-items-center" type="submit">Create a team
+        </button>
+        
     </div>
     <div class="row p-1">
-        <div class="col-6">
+        <div class="col-6 text-start">
             <div class="row">
                 <label class="text-light fs-5" asp-for="TeamName"></label>
             </div>
             
         <input class="fs-5" type="text" asp-for="TeamName" />
+        @* TODO: Keep the text from the field in TempData to not lose the data when reloading/refreshing the page *@
         </div>
+        </form>
         <div class="col-6 text-end">
-            <form action="/Team/Index" method="post">
+            
                 
             <div class="row">
                 <label asp-for="NewTeamMemberId" class="text-light fs-5">Select Team Member:</label>
@@ -40,40 +47,49 @@
         </div>
         
     </div>
-    <table class="table table-bordered table-striped text-center" style="width:100%">
-      <thead class="align-middle">
+    <table class="table table-bordered table-striped text-center align-middle" style="width:100%">
+      <thead>
           <tr>
               <th>First Name</th>
               <th>Last Name</th>
-              <th class="d-flex justify-content-around align-items-center">Email Address 
-                  <button class="show-popup btn btn-success rounded-5"><i class="bi bi-plus-circle-dotted"></i> Add new person</button>
+              <th  @* class="d-flex justify-content-around align-items-center" *@>Email Address
+                  @* <button class="show-popup btn btn-success rounded-5"><i class="bi bi-plus-circle-dotted"></i> Add new person</button> *@
               </th>
+              <th class="col-1">Remove</th>
           </tr>
       </thead>
       <tbody>
             @foreach (Person teamMember in Model.TeamMembers)
             {
+                <form action="/Team/Remove" method="post">
+                    @Html.Hidden("Remove",teamMember.Id,"Id")
                 <tr>
-                    <th>@teamMember.FirstName</th>
-                    <th>@teamMember.LastName</th>
-                    <th>@teamMember.EmailAddress</th>
+                    <th >@teamMember.FirstName</th>
+                    <th >@teamMember.LastName</th>
+                    <th >@teamMember.EmailAddress</th>
+                    <th class="col-1">
+                        <button class="btn btn-danger" type="submit">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                        </th>
                 </tr>
-                
+                </form>
             }
         </tbody>
+        
   </table>
  
 </div>
 
-<div class="popup-container border text-center text-light">
+@* <div class="popup-container border text-center text-light">
     <div class="popup-box">
     <fieldset>
         <legend>Add Person</legend>
         <form action="/Team/CreatePerson" method="post">
-            @* @foreach (Person TeamMember in Model.TeamMembers)
-                {
-                    @Html.Hidden($"{TeamMember.Id}",TeamMember)
-                } *@
+            // @foreach (Person TeamMember in Model.TeamMembers)
+            //    {
+            //        @Html.Hidden($"{TeamMember.Id}",TeamMember)
+            //    } 
                 
             <div class="row text-center m-1">
                 <label asp-for="@Model.NewMember.FirstName"></label>
@@ -104,7 +120,7 @@
         </form>
     </fieldset>
     </div>
-</div>
+</div> *@
 
 @* <script>
     function SetTempTeamMembers(){
