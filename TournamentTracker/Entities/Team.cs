@@ -8,7 +8,6 @@ namespace TournamentTracker.Entities
     {
         [Key]
         public int Id { get; set; }
-        public List<Person> TeamMembers { get; set; } = new List<Person>();
 
 		[Required]
 		[DisplayName("Team Name")]

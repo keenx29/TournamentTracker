@@ -46,23 +46,25 @@ namespace TournamentTracker.Controllers
         }
         [HttpPost]
         [ActionName("Index")]
-        public IActionResult IndexPost(TeamVM model)
+        public IActionResult IndexPost(int? NewTeamMemberId)
         {
             //if (TempData.Peek("selectedTeamMembers") != null)
             //{
             //    model.TeamMembers = TempData.Peek("selectedTeamMembers").ToList();
             //}
-            
-            Person newTeamMember = db.People.FirstOrDefault(x => x.Id == model.NewTeamMemberId);
-            if (newTeamMember != null) 
+            if (NewTeamMemberId != null && NewTeamMemberId != 0)
             {
-                selectedTeamMembers.Add(newTeamMember);
-                //model.TeamMembers.Add(newTeamMember);
-                //var availablePlayers = db.People.ToList();
-                //model.AvailablePlayers = availablePlayers.Except(model.TeamMembers).ToList();
-                //TempData["TeamMembers"] = JsonSerializer.Serialize(model.TeamMembers);
+                Person newTeamMember = db.People.FirstOrDefault(x => x.Id == NewTeamMemberId);
+                if (newTeamMember != null)
+                {
+                    selectedTeamMembers.Add(newTeamMember);
+                    //model.TeamMembers.Add(newTeamMember);
+                    //var availablePlayers = db.People.ToList();
+                    //model.AvailablePlayers = availablePlayers.Except(model.TeamMembers).ToList();
+                    //TempData["TeamMembers"] = JsonSerializer.Serialize(model.TeamMembers);
+                }
             }
-            return RedirectToAction("Index",model);
+            return RedirectToAction("Index");
         }
         //[HttpPost]
         //public IActionResult CreatePerson(TeamVM model)
@@ -80,38 +82,42 @@ namespace TournamentTracker.Controllers
         //    return RedirectToAction("Index", model);
         //}
         [HttpPost]
-        public IActionResult Create(TeamVM model)
+        public IActionResult Create(string teamName)
         {
-            Team newTeam = new Team();
-            if (!string.IsNullOrEmpty(model.TeamName))
+            //TODO: Check for a team already existing with the same name.
+            if (!string.IsNullOrEmpty(teamName))
             {
                 if (selectedTeamMembers.Count > 0)
                 {
-                    newTeam.TeamName = model.TeamName;
-                    foreach (Person teamMember in selectedTeamMembers)
-                    {
-                        newTeam.TeamMembers.Add(teamMember);
-                    }
+                    Team newTeam = new Team();
+                    newTeam.TeamName = teamName;
                     db.Add(newTeam);
                     db.SaveChanges();
-                    return View();
+                    foreach (Person teamMember in selectedTeamMembers)
+                    {
+                        db.Attach(teamMember);
+                        TeamMember newMember = new TeamMember();
+                        newMember.Team = newTeam;
+                        newMember.Person = teamMember;
+                        db.Add(newMember);
+                    }
+                    db.SaveChanges();
+                    selectedTeamMembers.Clear();
+                    return RedirectToAction("Index");
                 }
             }
-            return View("Index", model);
+            return RedirectToAction("Index");
         }
         [HttpPost]
-        public IActionResult Remove(int? Id)
+        public IActionResult Remove(int? RemovedTeamMemberId)
         {
-            //TODO: Id of the team member to be removed is not coming through.
-            Person removedTeamMember = db.People.FirstOrDefault(x => x.Id == Id);
-            if (Id != null)
+            
+            if (RemovedTeamMemberId != null && RemovedTeamMemberId != 0)
             {
-                if (Id != 0)
+                Person removedTeamMember = db.People.FirstOrDefault(x => x.Id == RemovedTeamMemberId);
+                if (removedTeamMember != null)
                 {
-                    if (removedTeamMember != null)
-                    {
-                        selectedTeamMembers.RemoveAll(x => x.Id == Id);
-                    }
+                    selectedTeamMembers.RemoveAll(x => x.Id == removedTeamMember.Id);
                 }
             }
             return RedirectToAction("Index");

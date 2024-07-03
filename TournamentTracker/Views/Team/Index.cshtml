@@ -4,10 +4,9 @@
 @{
     ViewData["Title"] = "Teams";
 }
-
+<form action="/Team/Create" method="post">
 <div class="container p-3 text-center">
-    <form action="/Team/Index" method="post">
-    <form action="/Team/Create" method="post">
+    
     <div class="pt-4 text-center d-flex justify-content-center" style="height: 10vh;">
         
         <button style="height: 100%; padding: auto;" class="btn btn-outline-info fs-2 d-flex align-items-center" type="submit">Create a team
@@ -30,7 +29,8 @@
             <div class="row">
                 <label asp-for="NewTeamMemberId" class="text-light fs-5">Select Team Member:</label>
             </div>
-        @Html.DropDownList("NewTeamMemberId", new SelectList(Model.AvailablePlayers, "Id", "FirstName"), "New Member")
+        <form action="/Team/Index" method="post">
+        @Html.DropDownList("NewTeamMemberId", new SelectList(Model.AvailablePlayers, "Id","FirstName"), "New Member")
         @* <select asp-for="NewTeamMemberId" asp-items="@(new SelectList(Model.AvailablePlayers, "Id", "FullName"))"></select> *@
                @*  @foreach (Person TeamMember in Model.TeamMembers)
                 {
@@ -62,7 +62,7 @@
             @foreach (Person teamMember in Model.TeamMembers)
             {
                 <form action="/Team/Remove" method="post">
-                    @Html.Hidden("Remove",teamMember.Id,"Id")
+                @Html.Hidden("Id",teamMember.Id, "Id")
                 <tr>
                     <th >@teamMember.FirstName</th>
                     <th >@teamMember.LastName</th>
